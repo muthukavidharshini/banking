@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureBank - Modern Banking</title>
+    <style>
+        
+    /* Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        color: #333;
+        overflow-x: hidden;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Header Styles */
+    header {
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+    }
+
+    .logo h1 {
+        color: #764ba2;
+        font-size: 1.8em;
+        font-weight: 700;
+    }
+
+    .logo span {
+        color: #667eea;
+    }
+
+    nav ul {
+        display: flex;
+        list-style: none;
+    }
+
+    nav ul li {
+        margin-left: 20px;
+    }
+
+    nav ul li a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        padding: 8px 15px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+    nav ul li a:hover {
+        background: rgba(102, 126, 234, 0.1);
+        color: #667eea;
+    }
+
+    /* Enhanced Authentication Styles */
+    .auth-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .auth-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.05) 70%, transparent 100%);
+        animation: rotate 20s linear infinite;
+        z-index: 0;
+    }
+
+    .auth-container {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 3rem;
+        box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 450px;
+        position: relative;
+        z-index: 1;
+        transform-style: preserve-3d;
+        transition: all 0.5s ease;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
+    }
+
+    .auth-container:hover {
+        transform: translateY(-5px) scale(1.01);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .auth-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+        position: relative;
+    }
+
+    .auth-header h2 {
+        font-size: 2rem;
+        color: #764ba2;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+    }
+
+    .auth-header p {
+        color: #6b7280;
+        font-size: 0.9rem;
+    }
+
+    .auth-header::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        margin: 1rem auto 0;
+        border-radius: 2px;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #2d3748;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.8rem 1rem 0.8rem 2.5rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        background-color: rgba(255, 255, 255, 0.8);
+        color: #2d3748;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        transform: translateY(-2px);
+    }
+
+    .form-control::placeholder {
+        color: #a0aec0;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 1rem;
+        top: 2.5rem;
+        color: #a0aec0;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus + .input-icon {
+        color: #667eea;
+        transform: scale(1.1);
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-primary {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        width: 100%;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-primary::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, #764ba2, #667eea);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 0;
+    }
+
+    .btn-primary:hover::after {
+        opacity: 1;
+    }
+
+    .btn-primary span {
+        position: relative;
+        z-index: 1;
+    }
+
+    .auth-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #6b7280;
+        font-size: 0.9rem;
+    }
+
+    .auth-link {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .auth-link:hover {
+        color: #764ba2;
+    }
+
+    .auth-link::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #764ba2;
+        transition: width 0.3s ease;
+    }
+
+    .auth-link:hover::after {
+        width: 100%;
+    }
+
+    .message {
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .message i {
+        margin-right: 0.5rem;
+    }
+
+    .message.success {
+        background: rgba(72, 187, 120, 0.1);
+        border: 1px solid rgba(72, 187, 120, 0.3);
+        color: #48bb78;
+    }
+
+    .message.error {
+        background: rgba(229, 62, 62, 0.1);
+        border: 1px solid rgba(229, 62, 62, 0.3);
+        color: #e53e3c;
+    }
+
+    /* Dashboard Styles */
+    .dashboard {
+        display: none;
+        margin-top: 80px;
+        padding: 30px 0;
+    }
+
+    .welcome-banner {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .welcome-banner h2 {
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+
+    .account-info {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .account-info p {
+        margin-bottom: 10px;
+    }
+
+    .account-info span {
+        font-weight: 600;
+    }
+
+    /* Banking Cards */
+    .banking-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+        color: #764ba2;
+        font-size: 1.3em;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    /* Transaction History */
+    .transaction-history {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .transaction-history h3 {
+        color: #764ba2;
+        margin-bottom: 20px;
+    }
+
+    .transaction-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .transaction-table th, .transaction-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+
+    .transaction-table th {
+        background: #f9f9f9;
+        color: #555;
+        font-weight: 600;
+    }
+
+    .transaction-table tr:hover {
+        background: #f5f5f5;
+    }
+
+    .credit {
+        color: #2ecc71;
+    }
+
+    .debit {
+        color: #e74c3c;
+    }
+
+    /* Enhanced About Page Styles */
+    .about-page {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .about-page::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
+        opacity: 0.3;
+        z-index: 0;
+    }
+
+    .about-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .section-header h2 {
+        font-size: 2.5rem;
+        color: #764ba2;
+        margin-bottom: 1rem;
+        position: relative;
+        display: inline-block;
+    }
+
+    .section-header h2::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        border-radius: 2px;
+    }
+
+    .section-header p {
+        color: #6b7280;
+        max-width: 700px;
+        margin: 0 auto;
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+
+    .about-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .about-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .about-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .about-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+    }
+
+    .about-card-icon {
+        font-size: 2.5rem;
+        color: #667eea;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .about-card h3 {
+        font-size: 1.5rem;
+        color: #2d3748;
+        margin-bottom: 1rem;
+    }
+
+    .about-card p {
+        color: #6b7280;
+        line-height: 1.6;
+    }
+
+    .team-section {
+        margin-top: 4rem;
+    }
+
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+
+    .team-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        transition: all 0.4s ease;
+        position: relative;
+    }
+
+    .team-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .team-card-image {
+        height: 250px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .team-card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .team-card:hover .team-card-image img {
+        transform: scale(1.1);
+    }
+
+    .team-card-image::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgba(118,75,162,0.7), transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .team-card:hover .team-card-image::after {
+        opacity: 1;
+    }
+
+    .team-card-content {
+        padding: 1.5rem;
+        text-align: center;
+    }
+
+    .team-card-content h3 {
+        font-size: 1.3rem;
+        color: #2d3748;
+        margin-bottom: 0.5rem;
+    }
+
+    .team-card-content p {
+        color: #667eea;
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+
+    .team-card-social {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .team-card-social a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background: rgba(102, 126, 234, 0.1);
+        color: #667eea;
+        transition: all 0.3s ease;
+    }
+
+    .team-card-social a:hover {
+        background: #667eea;
+        color: white;
+        transform: translateY(-3px);
+    }
+
+    /* Enhanced Contact Page Styles */
+    .contact-page {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+
+    .contact-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 3rem;
+    }
+
+    .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .contact-info-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        transition: all 0.4s ease;
+        display: flex;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+
+    .contact-info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-info-icon {
+        font-size: 1.5rem;
+        color: white;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .contact-info-content h3 {
+        font-size: 1.2rem;
+        color: #2d3748;
+        margin-bottom: 0.5rem;
+    }
+
+    .contact-info-content p, 
+    .contact-info-content a {
+        color: #6b7280;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        line-height: 1.6;
+    }
+
+    .contact-info-content a:hover {
+        color: #667eea;
+    }
+
+    .contact-form-container {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .contact-form {
+        display: grid;
+        gap: 1.5rem;
+    }
+
+    .form-group textarea {
+        min-height: 150px;
+        resize: vertical;
+    }
+
+    .map-container {
+        height: 300px;
+        border-radius: 15px;
+        overflow: hidden;
+        margin-top: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .map-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    /* Footer Styles */
+    footer {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 20px 0;
+        text-align: center;
+        margin-top: 50px;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .footer-section {
+        flex: 1;
+        min-width: 250px;
+        margin-bottom: 20px;
+    }
+
+    .footer-section h3 {
+        color: #764ba2;
+        margin-bottom: 15px;
+    }
+
+    .footer-section p, .footer-section a {
+        color: #666;
+        margin-bottom: 10px;
+        display: block;
+        text-decoration: none;
+    }
+
+    .footer-section a:hover {
+        color: #667eea;
+    }
+
+    /* Animations */
+    @keyframes rotate {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        20%, 60% { transform: translateX(-5px); }
+        40%, 80% { transform: translateX(5px); }
+    }
+
+    .floating {
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .pulse {
+        animation: pulse 3s ease infinite;
+    }
+
+    .shake {
+        animation: shake 0.4s ease;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .header-container {
+            flex-direction: column;
+            padding: 15px;
+        }
+
+        nav ul {
+            margin-top: 15px;
+        }
+
+        nav ul li {
+            margin: 0 5px;
+        }
+
+        .auth-container {
+            padding: 2rem 1.5rem;
+        }
+
+        .account-info {
+            flex-direction: column;
+        }
+
+        .banking-cards {
+            grid-template-columns: 1fr;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+        }
+
+        .about-card, 
+        .contact-info-card {
+            padding: 1.5rem;
+        }
+    }
+
+        </style>
+        </head>
+<body>
+    <!-- Header -->
+    <header id="mainHeader" style="display: none;">
+        <div class="header-container">
+            <div class="logo">
+                <h1>Secure<span>Bank</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" onclick="showHomePage()">Home</a></li>
+                    <li><a href="#" onclick="showBankingPage()">Banking</a></li>
+                    <li><a href="#" onclick="showAboutPage()">About</a></li>
+                    <li><a href="#" onclick="showContactPage()">Contact</a></li>
+                    <li><a href="#" onclick="logout()" class="btn btn-danger">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+   <!-- Authentication Section -->
+    <section class="auth-section" id="authSection">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h2>Welcome to SecureBank</h2>
+                <p>Your trusted financial partner</p>
+            </div>
+            
+            <div id="messageContainer"></div>
+            
+            <!-- Login Form -->
+            <div id="loginForm">
+                <form id="loginFormElement">
+                    <div class="form-group">
+                        <label for="loginUsername">Username</label>
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" id="loginUsername" class="form-control" placeholder="Enter your username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <span>Login</span>
+                    </button>
+                    <div class="auth-footer">
+                        Don't have an account? <a href="#" onclick="showSignup()" class="auth-link">Sign up</a>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Signup Form -->
+            <div id="signupForm" style="display: none;">
+                <form id="signupFormElement">
+                    <div class="form-group">
+                        <label for="signupUsername">Username</label>
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" id="signupUsername" class="form-control" placeholder="Choose a username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email</label>
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" id="signupEmail" class="form-control" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="signupPassword" class="form-control" placeholder="Create a password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="initialDeposit">Initial Deposit ($)</label>
+                        <i class="fas fa-dollar-sign input-icon"></i>
+                        <input type="number" id="initialDeposit" class="form-control" placeholder="Enter initial deposit" min="0" step="0.01" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <span>Create Account</span>
+                    </button>
+                    <div class="auth-footer">
+                        Already have an account? <a href="#" onclick="showLogin()" class="auth-link">Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+     <!-- Dashboard Section -->
+    <div class="container dashboard" id="dashboard">
+        <!-- Home Page -->
+        <div class="page-content" id="homePage">
+            <div class="welcome-banner">
+                <h2>Welcome back, <span id="currentUser"></span>!</h2>
+                <div class="account-info">
+                    <p>Account Number: <span id="accountId"></span></p>
+                    <p>Account Type: <span>Premium Savings</span></p>
+                    <p>Last Login: <span id="lastLogin"></span></p>
+                </div>
+            </div>
+
+            <div class="banking-cards">
+                <div class="card">
+                    <h3 class="card-title">Account Balance</h3>
+                    <div class="balance-display" id="balanceAmount">$0.00</div>
+                    <button class="btn btn-primary" onclick="showBankingPage()">View Details</button>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title">Quick Transfer</h3>
+                    <form id="quickTransferForm">
+                        <div class="form-group">
+                            <input type="text" id="quickTransferTo" placeholder="Recipient username" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="quickTransferAmount" placeholder="Amount ($)" min="0" step="0.01" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Transfer Now</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title">Recent Activity</h3>
+                    <div id="recentActivity">
+                        <p>No recent transactions</p>
+                    </div>
+                    <button class="btn btn-secondary" onclick="showBankingPage()">View All Transactions</button>
+                </div>
+            </div>
+
+            <div class="transaction-history">
+                <h3>Recent Transactions</h3>
+                <table class="transaction-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionTableBody">
+                        <!-- Transactions will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Banking Page -->
+        <div class="page-content" id="bankingPage" style="display: none;">
+            <h2>Banking Services</h2>
+            
+            <div class="banking-cards">
+                <div class="card">
+                    <h3 class="card-title">Deposit Money</h3>
+                    <form id="depositForm">
+                        <div class="form-group">
+                            <label for="depositAmount">Amount ($)</label>
+                            <input type="number" id="depositAmount" placeholder="Enter amount to deposit" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="depositMethod">Payment Method</label>
+                            <select id="depositMethod" required>
+                                <option value="">Select method</option>
+                                <option value="bank_transfer">Bank Transfer</option>
+                                <option value="credit_card">Credit Card</option>
+                                <option value="debit_card">Debit Card</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Deposit</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title">Withdraw Money</h3>
+                    <form id="withdrawForm">
+                        <div class="form-group">
+                            <label for="withdrawAmount">Amount ($)</label>
+                            <input type="number" id="withdrawAmount" placeholder="Enter amount to withdraw" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="withdrawMethod">Withdrawal Method</label>
+                            <select id="withdrawMethod" required>
+                                <option value="">Select method</option>
+                                <option value="bank_transfer">Bank Transfer</option>
+                                <option value="atm">ATM Withdrawal</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Withdraw</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title">Transfer Money</h3>
+                    <form id="transferForm">
+                        <div class="form-group">
+                            <label for="transferTo">Recipient Username</label>
+                            <input type="text" id="transferTo" placeholder="Enter recipient username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="transferAmount">Amount ($)</label>
+                            <input type="number" id="transferAmount" placeholder="Enter amount to transfer" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="transferNote">Note (Optional)</label>
+                            <input type="text" id="transferNote" placeholder="Add a note">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Transfer</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="transaction-history">
+                <h3>Transaction History</h3>
+                <table class="transaction-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fullTransactionTableBody">
+                        <!-- All transactions will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- About Page -->
+        <div class="page-content" id="aboutPage" style="display: none;">
+            <h2>About SecureBank</h2>
+            <p>Welcome to SecureBank, your trusted financial partner since 2023. We are committed to providing secure and innovative banking solutions to meet all your financial needs.</p>
+            
+            <h3 style="margin-top: 30px;">Our Mission</h3>
+            <p>To empower our customers with cutting-edge banking technology while maintaining the highest standards of security and customer service.</p>
+            
+            <h3 style="margin-top: 30px;">Our Values</h3>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Security First - Your money and data are always protected</li>
+                <li>Customer Focus - We put your needs at the center of everything we do</li>
+                <li>Innovation - Constantly evolving to serve you better</li>
+                <li>Transparency - No hidden fees or surprises</li>
+            </ul>
+            
+            <h3 style="margin-top: 30px;">Leadership Team</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 15px;">
+                <div style="flex: 1; min-width: 200px;">
+                    <h4>John Smith</h4>
+                    <p>CEO & Founder</p>
+                </div>
+                <div style="flex: 1; min-width: 200px;">
+                    <h4>Sarah Johnson</h4>
+                    <p>Chief Technology Officer</p>
+                </div>
+                <div style="flex: 1; min-width: 200px;">
+                    <h4>Michael Chen</h4>
+                    <p>Chief Financial Officer</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div class="page-content" id="contactPage" style="display: none;">
+            <h2>Contact Us</h2>
+            <p>Have questions or need assistance? Our team is here to help you 24/7.</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 30px;">
+                <div>
+                    <h3>Customer Support</h3>
+                    <p><strong>Phone:</strong> 1-800-SECURE-BANK (1-800-732-8732)</p>
+                    <p><strong>Email:</strong> support@securebank.com</p>
+                    <p><strong>Live Chat:</strong> Available 24/7 through our mobile app</p>
+                </div>
+                
+                <div>
+                    <h3>Headquarters</h3>
+                    <p>123 Financial District</p>
+                    <p>San Francisco, CA 94111</p>
+                    <p>United States</p>
+                </div>
+                
+                <div>
+                    <h3>Business Hours</h3>
+                    <p><strong>Monday-Friday:</strong> 8:00 AM - 8:00 PM EST</p>
+                    <p><strong>Saturday:</strong> 9:00 AM - 5:00 PM EST</p>
+                    <p><strong>Sunday:</strong> Closed</p>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 30px;">Send Us a Message</h3>
+            <form id="contactForm" style="margin-top: 15px;">
+                <div class="form-group">
+                    <label for="contactName">Your Name</label>
+                    <input type="text" id="contactName" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactEmail">Email Address</label>
+                    <input type="email" id="contactEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactSubject">Subject</label>
+                    <input type="text" id="contactSubject" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactMessage">Message</label>
+                    <textarea id="contactMessage" rows="5" style="width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px;" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="mainFooter" style="display: none;">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>SecureBank</h3>
+                    <p>Your trusted financial partner for all banking needs.</p>
+                    <p>Member FDIC. Equal Housing Lender.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="#" onclick="showHomePage()">Home</a>
+                    <a href="#" onclick="showBankingPage()">Banking Services</a>
+                    <a href="#" onclick="showAboutPage()">About Us</a>
+                    <a href="#" onclick="showContactPage()">Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Security</a>
+                    <a href="#">Disclosures</a>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 20px; color: #666;">&copy; 2023 SecureBank. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // In-memory storage for demo (replace with backend API calls)
+        let users = {};
+        let currentUser = null;
+        let accountIdCounter = 1001;
+        let transactions = {};
+
+        // Initialize with some demo data
+        users['demo'] = {
+            password: 'demo123',
+            email: 'demo@securebank.com',
+            balance: 2500.00,
+            accountId: 1001,
+            lastLogin: new Date().toLocaleString()
+        };
+
+        transactions['demo'] = [
+            { date: new Date('2023-06-15').toLocaleDateString(), description: 'Salary Deposit', amount: 3000.00, type: 'credit', status: 'Completed' },
+            { date: new Date('2023-06-18').toLocaleDateString(), description: 'Grocery Store', amount: 125.75, type: 'debit', status: 'Completed' },
+            { date: new Date('2023-06-20').toLocaleDateString(), description: 'Transfer to Alice', amount: 250.00, type: 'debit', status: 'Completed' },
+            { date: new Date('2023-06-22').toLocaleDateString(), description: 'Online Shopping', amount: 89.99, type: 'debit', status: 'Completed' },
+            { date: new Date('2023-06-25').toLocaleDateString(), description: 'Interest Payment', amount: 15.23, type: 'credit', status: 'Completed' }
+        ];
+// Authentication Functions
+function showLogin() {
+    document.getElementById('loginForm').style.display = 'block';
+    document.getElementById('signupForm').style.display = 'none';
+}
+
+function showSignup() {
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('signupForm').style.display = 'block';
+}
+
+function showMessage(message, type = 'success') {
+    const container = document.getElementById('messageContainer');
+    container.innerHTML = `<div class="message ${type}">${message}</div>`;
+    setTimeout(() => {
+        container.innerHTML = '';
+    }, 5000);
+}
+
+// Initialize the page to show login form first
+showLogin();
+
+
+        // Login Handler
+        document.getElementById('loginFormElement').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (users[username] && users[username].password === password) {
+                currentUser = username;
+                users[currentUser].lastLogin = new Date().toLocaleString();
+                showDashboard();
+                showMessage('Login successful! Welcome back.');
+            } else {
+                showMessage('Invalid username or password', 'error');
+            }
+        });
+
+        // Signup Handler
+        document.getElementById('signupFormElement').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('signupUsername').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const initialDeposit = parseFloat(document.getElementById('initialDeposit').value);
+            
+            if (users[username]) {
+                showMessage('Username already exists', 'error');
+                return;
+            }
+            
+            if (initialDeposit < 0) {
+                showMessage('Initial deposit cannot be negative', 'error');
+                return;
+            }
+            
+            users[username] = {
+                password: password,
+                email: email,
+                balance: initialDeposit,
+                accountId: ++accountIdCounter,
+                lastLogin: new Date().toLocaleString()
+            };
+            
+            transactions[username] = [
+                { 
+                    date: new Date().toLocaleDateString(), 
+                    description: 'Initial Deposit', 
+                    amount: initialDeposit, 
+                    type: 'credit', 
+                    status: 'Completed' 
+                }
+            ];
+            
+            showMessage('Account created successfully! Please login.');
+            showLogin();
+            document.getElementById('loginUsername').value = username;
+        });
+
+        // Dashboard Functions
+        function showDashboard() {
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('mainHeader').style.display = 'block';
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('mainFooter').style.display = 'block';
+            
+            document.getElementById('currentUser').textContent = currentUser;
+            document.getElementById('accountId').textContent = users[currentUser].accountId;
+            document.getElementById('lastLogin').textContent = users[currentUser].lastLogin;
+            
+            updateBalance();
+            updateTransactions();
+            showHomePage();
+        }
+
+        function updateBalance() {
+            const balance = users[currentUser].balance;
+            document.getElementById('balanceAmount').textContent = `$${balance.toFixed(2)}`;
+        }
+
+        function updateTransactions() {
+            const userTransactions = transactions[currentUser] || [];
+            const transactionTableBody = document.getElementById('transactionTableBody');
+            const fullTransactionTableBody = document.getElementById('fullTransactionTableBody');
+            
+            // Clear existing rows
+            transactionTableBody.innerHTML = '';
+            fullTransactionTableBody.innerHTML = '';
+            
+            // Show only last 3 transactions in home page
+            const recentTransactions = userTransactions.slice(0, 3);
+            
+            recentTransactions.forEach(transaction => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${transaction.date}</td>
+                    <td>${transaction.description}</td>
+                    <td class="${transaction.type}">${transaction.type === 'credit' ? '+' : '-'}$${transaction.amount.toFixed(2)}</td>
+                    <td>${transaction.status}</td>
+                `;
+                transactionTableBody.appendChild(row);
+            });
+            
+            // Show all transactions in banking page
+            userTransactions.forEach(transaction => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${transaction.date}</td>
+                    <td>${transaction.description}</td>
+                    <td class="${transaction.type}">${transaction.type === 'credit' ? '+' : '-'}$${transaction.amount.toFixed(2)}</td>
+                    <td>${transaction.status}</td>
+                `;
+                fullTransactionTableBody.appendChild(row);
+            });
+            
+            // Update recent activity
+            const recentActivity = document.getElementById('recentActivity');
+            if (userTransactions.length > 0) {
+                recentActivity.innerHTML = '';
+                recentTransactions.forEach(transaction => {
+                    const activityItem = document.createElement('p');
+                    activityItem.innerHTML = `
+                        <strong>${transaction.description}</strong><br>
+                        <span class="${transaction.type}">${transaction.type === 'credit' ? '+' : '-'}$${transaction.amount.toFixed(2)}</span> • ${transaction.date}
+                    `;
+                    recentActivity.appendChild(activityItem);
+                });
+            } else {
+                recentActivity.innerHTML = '<p>No recent transactions</p>';
+            }
+        }
+
+        function addTransaction(description, amount, type) {
+            if (!transactions[currentUser]) {
+                transactions[currentUser] = [];
+            }
+            
+            transactions[currentUser].unshift({
+                date: new Date().toLocaleDateString(),
+                description: description,
+                amount: amount,
+                type: type,
+                status: 'Completed'
+            });
+            
+            updateTransactions();
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('authSection').style.display = 'flex';
+            document.getElementById('mainHeader').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('mainFooter').style.display = 'none';
+            
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+            showLogin();
+        }
+
+        // Page Navigation
+        function showHomePage() {
+            hideAllPages();
+            document.getElementById('homePage').style.display = 'block';
+            updateBalance();
+        }
+
+        function showBankingPage() {
+            hideAllPages();
+            document.getElementById('bankingPage').style.display = 'block';
+        }
+
+        function showAboutPage() {
+            hideAllPages();
+            document.getElementById('aboutPage').style.display = 'block';
+        }
+
+        function showContactPage() {
+            hideAllPages();
+            document.getElementById('contactPage').style.display = 'block';
+        }
+
+        function hideAllPages() {
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => {
+                page.style.display = 'none';
+            });
+        }
+
+        // Banking Operations
+        document.getElementById('depositForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const amount = parseFloat(document.getElementById('depositAmount').value);
+            const method = document.getElementById('depositMethod').value;
+            
+            if (amount > 0 && method) {
+                users[currentUser].balance += amount;
+                updateBalance();
+                addTransaction(`Deposit via ${method}`, amount, 'credit');
+                showMessage(`Successfully deposited $${amount.toFixed(2)}`);
+                document.getElementById('depositAmount').value = '';
+                document.getElementById('depositMethod').value = '';
+            } else {
+                showMessage('Please enter a valid amount and select a method', 'error');
+            }
+        });
+
+        document.getElementById('withdrawForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            const method = document.getElementById('withdrawMethod').value;
+            
+            if (amount > 0 && amount <= users[currentUser].balance && method) {
+                users[currentUser].balance -= amount;
+                updateBalance();
+                addTransaction(`Withdrawal via ${method}`, amount, 'debit');
+                showMessage(`Successfully withdrawn $${amount.toFixed(2)}`);
+                document.getElementById('withdrawAmount').value = '';
+                document.getElementById('withdrawMethod').value = '';
+            } else if (amount > users[currentUser].balance) {
+                showMessage('Insufficient funds', 'error');
+            } else {
+                showMessage('Please enter a valid amount and select a method', 'error');
+            }
+        });
+
+        document.getElementById('transferForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const recipient = document.getElementById('transferTo').value;
+            const amount = parseFloat(document.getElementById('transferAmount').value);
+            const note = document.getElementById('transferNote').value;
+            
+            if (!users[recipient]) {
+                showMessage('Recipient not found', 'error');
+                return;
+            }
+            
+            if (amount > 0 && amount <= users[currentUser].balance) {
+                users[currentUser].balance -= amount;
+                users[recipient].balance += amount;
+                
+                // Add transaction for sender
+                addTransaction(`Transfer to ${recipient}${note ? ': ' + note : ''}`, amount, 'debit');
+                
+                // Add transaction for recipient (if we were tracking all users)
+                if (transactions[recipient]) {
+                    transactions[recipient].unshift({
+                        date: new Date().toLocaleDateString(),
+                        description: `Transfer from ${currentUser}${note ? ': ' + note : ''}`,
+                        amount: amount,
+                        type: 'credit',
+                        status: 'Completed'
+                    });
+                }
+                
+                updateBalance();
+                showMessage(`Successfully transferred $${amount.toFixed(2)} to ${recipient}`);
+                document.getElementById('transferTo').value = '';
+                document.getElementById('transferAmount').value = '';
+                document.getElementById('transferNote').value = '';
+            } else if (amount > users[currentUser].balance) {
+                showMessage('Insufficient funds', 'error');
+            }
+        });
+
+        document.getElementById('quickTransferForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const recipient = document.getElementById('quickTransferTo').value;
+            const amount = parseFloat(document.getElementById('quickTransferAmount').value);
+            
+            if (!users[recipient]) {
+                showMessage('Recipient not found', 'error');
+                return;
+            }
+            
+            if (amount > 0 && amount <= users[currentUser].balance) {
+                users[currentUser].balance -= amount;
+                users[recipient].balance += amount;
+                
+                // Add transaction for sender
+                addTransaction(`Quick Transfer to ${recipient}`, amount, 'debit');
+                
+                // Add transaction for recipient (if we were tracking all users)
+                if (transactions[recipient]) {
+                    transactions[recipient].unshift({
+                        date: new Date().toLocaleDateString(),
+                        description: `Transfer from ${currentUser}`,
+                        amount: amount,
+                        type: 'credit',
+                        status: 'Completed'
+                    });
+                }
+                
+                updateBalance();
+                showMessage(`Successfully transferred $${amount.toFixed(2)} to ${recipient}`);
+                document.getElementById('quickTransferTo').value = '';
+                document.getElementById('quickTransferAmount').value = '';
+            } else if (amount > users[currentUser].balance) {
+                showMessage('Insufficient funds', 'error');
+            }
+        });
+
+        // Contact Form
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showMessage('Your message has been sent. We will respond within 24 hours.');
+            document.getElementById('contactForm').reset();
+        });
+
+        // Initialize
+        showLogin();
+    </script>
+</body>
+</html>
